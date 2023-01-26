@@ -1,0 +1,20 @@
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+
+<SplashScreen>:
+    MDFloatLayout:
+        md_bg_color: get_color_from_hex("#5472D3")
+        canvas:
+            Color:
+                rgb: get_color_from_hex("#002171")
+            RoundedRectangle:
+                pos: (0, 450)  # (width, height)
+                size: (350, 180)
+                radius: [0,0,60,60]
+        MDLabel:
+            text: "Mini Banco"
+            pos_hint: {"center_x": .5, "center_y": .9 }
+            halign: "center"
+            text_color: "white" # não tá indoooo
+            font_size:"35sp"
+
+
