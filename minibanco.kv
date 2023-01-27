@@ -15,14 +15,35 @@
             pos_hint: {"center_x": .5, "center_y": .9 }
             halign: "center"
             theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
-            text_color: get_color_from_hex("#F9F9F9") # não tá indoooo
+            text_color: get_color_from_hex("#F9F9F9")
             font_size:"35sp"
 
+        # adicionar a logo
 
-        MDIconButton:
+        MDIconButton: # ainda vou ajeitar
             icon: "chevron-right"
             icon_size: "100sp"
             pos_hint: {"center_x": .5, "center_y": .10}
             theme_icon_color: "Custom"
             icon_color: get_color_from_hex("#002171")
+            on_press: root.manager.current = "home" # transferindo para a home
+
+<Home>:
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: get_color_from_hex("#5472D3")
+
+
+        MDBoxLayout:
+            orientation: "vertical"
+            md_bg_color: get_color_from_hex("#5472D3")
+            height: 100
+            size_hint_y: None
+
+        MDBoxLayout:
+            orientation: "vertical"
+            md_bg_color: get_color_from_hex("#002171")
+            radius: [50, 50, 0, 0]
+
+
 
