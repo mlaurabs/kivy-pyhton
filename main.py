@@ -2,7 +2,7 @@ from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 
-Window.size = (350, 580)
+Window.size = (350, 600)
 
 
 class SplashScreen(Screen):

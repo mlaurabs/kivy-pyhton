@@ -14,7 +14,15 @@
             text: "Mini Banco"
             pos_hint: {"center_x": .5, "center_y": .9 }
             halign: "center"
-            text_color: "white" # não tá indoooo
+            theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+            text_color: get_color_from_hex("#F9F9F9") # não tá indoooo
             font_size:"35sp"
 
+
+        MDIconButton:
+            icon: "chevron-right"
+            icon_size: "100sp"
+            pos_hint: {"center_x": .5, "center_y": .10}
+            theme_icon_color: "Custom"
+            icon_color: get_color_from_hex("#002171")
 
