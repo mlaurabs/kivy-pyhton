@@ -37,15 +37,15 @@
         MDFloatLayout: # principais dados da conta
 
             md_bg_color: get_color_from_hex("#5472D3")
-            height: 150
+            height: 110
             size_hint_y: None
 
             canvas:
                 Color:
                     rgb: get_color_from_hex("#000000")
                 RoundedRectangle:
-                    pos: (236, 507)  # (width, height)
-                    size: (75, 75)
+                    pos: (236, 525)  # (width, height)
+                    size: (65, 65)
                     radius: [330,330,330,330]
 
             MDLabel:  # saldo
@@ -55,14 +55,13 @@
                 theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
                 text_color: get_color_from_hex("#F9F9F9")
                 font_name: "Poppins-SemiBold.ttf"
-                font_size:"20sp"
+                font_size:"18sp"
 
             MDLabel:  #  primeiro nome
                 text: "Carlos"
                 pos_hint: {"center_x": .6, "center_y": .7}
                 theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
                 text_color: get_color_from_hex("#F9F9F9")
-                font_name: "Poppins-SemiBold.ttf"
                 font_size:"18sp"
                 font_name: "Poppins-Medium.ttf"
 
@@ -71,7 +70,6 @@
                 pos_hint: {"center_x": .6, "center_y": .5}
                 theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
                 text_color: get_color_from_hex("#F9F9F9")
-                font_name: "Poppins-SemiBold.ttf"
                 font_size:"18sp"
                 font_name: "Poppins-Medium.ttf"
 
@@ -79,14 +77,39 @@
             md_bg_color: get_color_from_hex("#002171")
             radius: [50, 50, 0, 0]
 
+            # Botao Transferir
+
             Image:
-                source: "images/buttons/Tranferir.png"
+                source: "images/buttons/transferir.png"
                 size_hint_y: None
                 width: 50
-                pos_hint: {"center_x": .2, "center_y": .8}
+                pos_hint: {"center_x": .2, "center_y": .85}
                 # on_release: root.chama()  #não tá funcionando
 
+            MDLabel: # Transferir
+                text: "Transferir"
+                pos_hint: {"center_x": .59, "center_y": .75}
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_size:"16sp"
+                font_name: "Poppins-Regular.ttf"
 
 
+            # Botao Boleto
+
+            Image:
+                source: "images/buttons/boleto.png"
+                size_hint_x: 0.182
+                allow_stretch: True
+                pos_hint: {"center_x": .5, "center_y": .887}
+                # on_release: root.chama()  #não tá funcionando
+
+            MDLabel: # Boleto
+                text: "Boleto"
+                pos_hint: {"center_x": .93, "center_y": .75}
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_size:"16sp"
+                font_name: "Poppins-Regular.ttf"
 
 
