@@ -15,14 +15,78 @@
             pos_hint: {"center_x": .5, "center_y": .9 }
             halign: "center"
             theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
-            text_color: get_color_from_hex("#F9F9F9") # não tá indoooo
+            text_color: get_color_from_hex("#F9F9F9")
             font_size:"35sp"
 
+        # adicionar a logo
 
-        MDIconButton:
+        MDIconButton: # ainda vou ajeitar
             icon: "chevron-right"
             icon_size: "100sp"
             pos_hint: {"center_x": .5, "center_y": .10}
             theme_icon_color: "Custom"
             icon_color: get_color_from_hex("#002171")
+            on_press: root.manager.current = "home" # transferindo para a home
+
+<Home>:
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: get_color_from_hex("#5472D3")
+
+
+        MDFloatLayout: # principais dados da conta
+
+            md_bg_color: get_color_from_hex("#5472D3")
+            height: 150
+            size_hint_y: None
+
+            canvas:
+                Color:
+                    rgb: get_color_from_hex("#000000")
+                RoundedRectangle:
+                    pos: (236, 507)  # (width, height)
+                    size: (75, 75)
+                    radius: [330,330,330,330]
+
+            MDLabel:  # saldo
+                text: "R$ 20.000,00"
+                pos_hint: {"center_x": .5, "center_y": .2}
+                halign: "center"
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_name: "Poppins-SemiBold.ttf"
+                font_size:"20sp"
+
+            MDLabel:  #  primeiro nome
+                text: "Carlos"
+                pos_hint: {"center_x": .6, "center_y": .7}
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_name: "Poppins-SemiBold.ttf"
+                font_size:"18sp"
+                font_name: "Poppins-Medium.ttf"
+
+            MDLabel:  #  último nome
+                text: "Silva"
+                pos_hint: {"center_x": .6, "center_y": .5}
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_name: "Poppins-SemiBold.ttf"
+                font_size:"18sp"
+                font_name: "Poppins-Medium.ttf"
+
+        MDFloatLayout: # funcionalidades
+            md_bg_color: get_color_from_hex("#002171")
+            radius: [50, 50, 0, 0]
+
+            Image:
+                source: "images/buttons/Tranferir.png"
+                size_hint_y: None
+                width: 50
+                pos_hint: {"center_x": .2, "center_y": .8}
+                # on_release: root.chama()  #não tá funcionando
+
+
+
+
 
