@@ -14,6 +14,7 @@ class MiniBanco(MDApp):
         sm = ScreenManager()
         sm.add_widget(SplashScreen(name="splashScreen"))
 
+
         return sm
 
 if __name__ == "__main__":
