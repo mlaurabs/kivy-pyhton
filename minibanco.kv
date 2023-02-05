@@ -73,25 +73,34 @@
                 font_size:"18sp"
                 font_name: "Poppins-Medium.ttf"
 
-        MDFloatLayout: # funcionalidades
+        MDFloatLayout: # home
             md_bg_color: get_color_from_hex("#002171")
             radius: [50, 50, 0, 0]
 
             # Botao Transferir
 
-            Image:
-                source: "images/buttons/transferir.png"
-                size_hint_y: None
-                width: 50
+            Button:
+                size_hint: 0.2, 0.199
+                # radius: [360, 360, 360, 360] ajeitar
                 pos_hint: {"center_x": .2, "center_y": .85}
-                # on_release: root.chama()  #não tá funcionando
+                background_color: 1, 1, 1, 1
+                on_press: root.chama()
+
+                Image:
+                    source: "images/buttons/transferir.png"
+                    # size_hint_y: None
+                    # width: 50
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                    # pos_hint: {"center_x": .2, "center_y": .85}
+                    # on_release: root.chama()  #não tá funcionando
 
             MDLabel: # Transferir
                 text: "Transferir"
-                pos_hint: {"center_x": .59, "center_y": .75}
+                pos_hint: {"center_x": .57, "center_y": .75}
                 theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
                 text_color: get_color_from_hex("#F9F9F9")
-                font_size:"16sp"
+                font_size:"14sp"
                 font_name: "Poppins-Regular.ttf"
 
 
@@ -109,7 +118,24 @@
                 pos_hint: {"center_x": .93, "center_y": .75}
                 theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
                 text_color: get_color_from_hex("#F9F9F9")
-                font_size:"16sp"
+                font_size:"14sp"
                 font_name: "Poppins-Regular.ttf"
 
+
+            # Botao Recarga
+
+            Image:
+                source: "images/buttons/recarga.png"
+                size_hint_x: 0.187
+                allow_stretch: True
+                pos_hint: {"center_x": .8, "center_y": .887}
+                # on_release: root.chama()  #não tá funcionando
+
+            MDLabel: # Recarga
+                text: "Recarga"
+                pos_hint: {"center_x": 1.2, "center_y": .75}
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_size:"14sp"
+                font_name: "Poppins-Regular.ttf"
 
