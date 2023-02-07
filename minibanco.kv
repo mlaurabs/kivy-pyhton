@@ -82,8 +82,8 @@
             Button:
                 size_hint: 0.2, 0.199
                 pos_hint: {"center_x": .2, "center_y":.845}
-                background_color: 0, 0, 0, 0
-                on_press: root.chama()
+                background_color: 1, 1, 1, 1
+                on_press: root.manager.current = "transferir" # transferindo para a Transferir
 
                 Image:
                     source: "images/buttons/transferir.png"
@@ -102,16 +102,16 @@
                 font_name: "Poppins-Regular.ttf"
 
 
-            # Botao Boleto
+            # Botao Depositar
 
             Button:
                 size_hint: 0.2, 0.199
                 pos_hint: {"center_x": .5, "center_y": .887}
-                background_color: 0, 0, 0, 0
-                on_press: root.chama()
+                background_color: 1, 1, 1, 1
+                on_press: root.manager.current = "depositar"  #transferindo para Depositar
 
                 Image:
-                    source: "images/buttons/boleto.png"
+                    source: "images/buttons/depositar.png"
                     size_hint_y: None
                     width: 63
                     center_x: self.parent.center_x
@@ -119,36 +119,44 @@
 
 
 
-            MDLabel: # Boleto
-                text: "Boleto"
-                pos_hint: {"center_x": .93, "center_y": .75}
+            MDLabel: # Depositar
+                text: "Depositar"
+                pos_hint: {"center_x": .89, "center_y": .75}
                 theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
                 text_color: get_color_from_hex("#F9F9F9")
                 font_size:"14sp"
                 font_name: "Poppins-Regular.ttf"
 
 
-            # Botao Recarga
+            # Botao Extrato
 
             Button:
                 size_hint: 0.2, 0.199
                 pos_hint: {"center_x": .8, "center_y": .887}
-                background_color: 0, 0, 0, 0
+                background_color: 1, 1, 1, 1
                 on_press: root.chama()
 
                 Image:
-                    source: "images/buttons/recarga.png"
+                    source: "images/buttons/extrato.png"
                     size_hint_y: None
                     width: 63
                     center_x: self.parent.center_x
                     center_y: self.parent.center_y
 
 
-            MDLabel: # Recarga
-                text: "Recarga"
-                pos_hint: {"center_x": 1.2, "center_y": .75}
+            MDLabel: # Extrato
+                text: "Extrato"
+                pos_hint: {"center_x": 1.22, "center_y": .75}
                 theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
                 text_color: get_color_from_hex("#F9F9F9")
                 font_size:"14sp"
                 font_name: "Poppins-Regular.ttf"
 
+<Transferir>:
+    MDLabel:
+        text: "Transferir"
+
+
+<Depositar>:
+    MDLabel:
+        text: "Depositar"
