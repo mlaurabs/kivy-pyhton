@@ -81,19 +81,17 @@
 
             Button:
                 size_hint: 0.2, 0.199
-                # radius: [360, 360, 360, 360] ajeitar
-                pos_hint: {"center_x": .2, "center_y": .85}
-                background_color: 1, 1, 1, 1
+                pos_hint: {"center_x": .2, "center_y":.845}
+                background_color: 0, 0, 0, 0
                 on_press: root.chama()
 
                 Image:
                     source: "images/buttons/transferir.png"
-                    # size_hint_y: None
-                    # width: 50
+                    size_hint_y: None
+                    width: 87
                     center_x: self.parent.center_x
                     center_y: self.parent.center_y
-                    # pos_hint: {"center_x": .2, "center_y": .85}
-                    # on_release: root.chama()  #não tá funcionando
+
 
             MDLabel: # Transferir
                 text: "Transferir"
@@ -106,12 +104,20 @@
 
             # Botao Boleto
 
-            Image:
-                source: "images/buttons/boleto.png"
-                size_hint_x: 0.182
-                allow_stretch: True
+            Button:
+                size_hint: 0.2, 0.199
                 pos_hint: {"center_x": .5, "center_y": .887}
-                # on_release: root.chama()  #não tá funcionando
+                background_color: 0, 0, 0, 0
+                on_press: root.chama()
+
+                Image:
+                    source: "images/buttons/boleto.png"
+                    size_hint_y: None
+                    width: 63
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+
+
 
             MDLabel: # Boleto
                 text: "Boleto"
@@ -124,12 +130,19 @@
 
             # Botao Recarga
 
-            Image:
-                source: "images/buttons/recarga.png"
-                size_hint_x: 0.187
-                allow_stretch: True
+            Button:
+                size_hint: 0.2, 0.199
                 pos_hint: {"center_x": .8, "center_y": .887}
-                # on_release: root.chama()  #não tá funcionando
+                background_color: 0, 0, 0, 0
+                on_press: root.chama()
+
+                Image:
+                    source: "images/buttons/recarga.png"
+                    size_hint_y: None
+                    width: 63
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+
 
             MDLabel: # Recarga
                 text: "Recarga"
