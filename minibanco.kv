@@ -95,7 +95,7 @@
 
             MDLabel: # Transferir
                 text: "Transferir"
-                pos_hint: {"center_x": .57, "center_y": .75}
+                pos_hint: {"center_x": .59, "center_y": .75}
                 theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
                 text_color: get_color_from_hex("#F9F9F9")
                 font_size:"14sp"
@@ -121,7 +121,7 @@
 
             MDLabel: # Depositar
                 text: "Depositar"
-                pos_hint: {"center_x": .89, "center_y": .75}
+                pos_hint: {"center_x": .9, "center_y": .75}
                 theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
                 text_color: get_color_from_hex("#F9F9F9")
                 font_size:"14sp"
@@ -146,17 +146,82 @@
 
             MDLabel: # Extrato
                 text: "Extrato"
-                pos_hint: {"center_x": 1.22, "center_y": .75}
+                pos_hint: {"center_x": 1.23, "center_y": .75}
                 theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
                 text_color: get_color_from_hex("#F9F9F9")
                 font_size:"14sp"
                 font_name: "Poppins-Regular.ttf"
 
 <Transferir>:
-    MDLabel:
-        text: "Transferir"
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: get_color_from_hex("#5472D3")
+
+        MDFloatLayout: # principais dados da conta
+
+            md_bg_color: get_color_from_hex("#5472D3")
+            height: 110
+            size_hint_y: None
+
+            MDIconButton:
+                icon: "home"
+                theme_icon_color: "Custom" # para conseguirmos mudar a cor do ícone
+                icon_color: get_color_from_hex("#F9F9F9")
+                icon_size: "34sp"
+                pos_hint: {"center_x": .12, "center_y": .75}
+                on_release: root.manager.current = "home"
+
+            MDLabel:
+                text: "Transferir"
+                pos_hint: {"center_x": 0.829 , "center_y": .5}
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_size:"24sp"
+                font_name: "Poppins-SemiBold.ttf"
+
+        MDFloatLayout: # forms
+            md_bg_color: get_color_from_hex("#002171")
+            radius: [50, 50, 0, 0]
+
+            MDTextField: # Valor
+                # id:
+                mode: "fill"
+                fill_color: get_color_from_hex("#002171")
+                hint_text: "R$"  # aumentar o tamanho da letra
+                size_hint: (0.68, 0.1)
+                pos_hint: {"center_x": 0.5, "center_y": 0.8}
+                font_size: "16dp"
+                multiline: False
+
 
 
 <Depositar>:
-    MDLabel:
-        text: "Depositar"
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: get_color_from_hex("#5472D3")
+
+        MDFloatLayout: # principais dados da conta
+
+            md_bg_color: get_color_from_hex("#5472D3")
+            height: 110
+            size_hint_y: None
+
+            MDIconButton:
+                icon: "home"
+                theme_icon_color: "Custom" # para conseguirmos mudar a cor do ícone
+                icon_color: get_color_from_hex("#F9F9F9")
+                icon_size: "34sp"
+                pos_hint: {"center_x": .12, "center_y": .75}
+                on_release: root.manager.current = "home"
+
+            MDLabel:
+                text: "Depositar"
+                pos_hint: {"center_x": 0.829 , "center_y": .5}
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_size:"24sp"
+                font_name: "Poppins-SemiBold.ttf"
+
+        MDFloatLayout: # home
+            md_bg_color: get_color_from_hex("#002171")
+            radius: [50, 50, 0, 0]
