@@ -293,6 +293,8 @@
                 multiline: False
 
 
+            # Botão de Finalizar
+
             Button:
                 size_hint: 0.7, 0.126
                 pos_hint: {"center_x": .5, "center_y": .1}
@@ -399,3 +401,28 @@
                 pos_hint: {"center_x": 0.5, "center_y": 0.52}
                 font_size: "16dp"
                 multiline: False
+
+
+            # Botão de Finalizar
+
+            Button:
+                size_hint: 0.7, 0.126
+                pos_hint: {"center_x": .5, "center_y": .1}
+                background_color: 0, 0, 0, 0
+                on_press: root.manager.current = "home"
+
+                Image:
+                    source: "images/buttons/finalizar.png"
+                    # size_hint_y: None
+                    width: 240
+                    height: 60
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+
+            MDLabel:
+                text: "Finalizar"
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_size:"22sp"
+                pos_hint: {"center_x": 0.87, "center_y": 0.1}
+                font_name: "Poppins-Medium.ttf"
