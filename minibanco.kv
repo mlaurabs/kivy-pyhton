@@ -183,18 +183,19 @@
             md_bg_color: get_color_from_hex("#002171")
             radius: [50, 50, 0, 0]
 
+            # campo VALOR
 
             MDLabel:
                 text: "Valor"
                 theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
                 text_color: get_color_from_hex("#F9F9F9")
                 font_size:"18sp"
-                pos_hint: {"center_x": 0.67, "center_y": 0.88}
+                pos_hint: {"center_x": 0.67, "center_y": 0.94}
                 font_name: "Poppins-Medium.ttf"
 
             Image: #icone de dinheiro
                 source: "images/MoneyIcon.png"
-                pos_hint: {"center_x": 0.35, "center_y": 0.88}
+                pos_hint: {"center_x": 0.35, "center_y": 0.94}
                 # size_hint_y: None
                 size_hint_x: 0.06
                 allow_stretch: True
@@ -204,23 +205,25 @@
                 mode: "fill"
                 hint_text: "R$"  # aumentar o tamanho da letra
                 size_hint: (0.68, 0.1)
-                pos_hint: {"center_x": 0.5, "center_y": 0.8}
+                pos_hint: {"center_x": 0.5, "center_y": 0.86}
                 font_size: "16dp"
                 multiline: False
 
 
+            # campo DESTINO
+
             MDLabel:
-                text: "Valor"
+                text: "Para"
                 theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
                 text_color: get_color_from_hex("#F9F9F9")
                 font_size:"18sp"
-                pos_hint: {"center_x": 0.67, "center_y": 0.88}
+                pos_hint: {"center_x": 0.67, "center_y": 0.74}
                 font_name: "Poppins-Medium.ttf"
 
 
             Image: #icone de dinheiro
-                source: "images/MoneyIcon.png"
-                pos_hint: {"center_x": 0.35, "center_y": 0.88}
+                source: "images/DestinoIcon.png"
+                pos_hint: {"center_x": 0.35, "center_y": 0.74}
                 # size_hint_y: None
                 size_hint_x: 0.06
                 allow_stretch: True
@@ -231,9 +234,86 @@
                 mode: "fill"
                 hint_text: "Conta / Agencia"  # aumentar o tamanho da letra
                 size_hint: (0.68, 0.1)
-                pos_hint: {"center_x": 0.5, "center_y": 0.6}
+                pos_hint: {"center_x": 0.5, "center_y": 0.66}
                 font_size: "16dp"
                 multiline: False
+
+
+            # campo Data
+
+            MDLabel:
+                text: "Data"
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_size:"18sp"
+                pos_hint: {"center_x": 0.67, "center_y": 0.54}
+                font_name: "Poppins-Medium.ttf"
+
+            Image: #icone de dinheiro
+                source: "images/DateIcon.png"
+                pos_hint: {"center_x": 0.35, "center_y": 0.54}
+                # size_hint_y: None
+                size_hint_x: 0.06
+                allow_stretch: True
+
+            MDTextField: # Data
+                # id:
+                mode: "fill"
+                hint_text: "--/--/----"  # aumentar o tamanho da letra
+                size_hint: (0.68, 0.1)
+                pos_hint: {"center_x": 0.5, "center_y": 0.46}
+                font_size: "16dp"
+                multiline: False
+
+
+            # campo Descrição
+
+            MDLabel:
+                text: "Descrição"
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_size:"18sp"
+                pos_hint: {"center_x": 0.67, "center_y": 0.34}
+                font_name: "Poppins-Medium.ttf"
+
+            Image: #icone de descrição
+                source: "images/DescIcon.png"
+                pos_hint: {"center_x": 0.48, "center_y": 0.34}
+                # size_hint_y: None
+                size_hint_x: 0.06
+                allow_stretch: True
+
+            MDTextField: # Descrição
+                # id:
+                mode: "fill"
+                hint_text: "--/--/----"  # aumentar o tamanho da letra
+                size_hint: (0.68, 0.1)
+                pos_hint: {"center_x": 0.5, "center_y": 0.26}
+                font_size: "16dp"
+                multiline: False
+
+
+            Button:
+                size_hint: 0.7, 0.126
+                pos_hint: {"center_x": .5, "center_y": .1}
+                background_color: 0, 0, 0, 0
+                on_press: root.manager.current = "home"
+
+                Image:
+                    source: "images/buttons/finalizar.png"
+                    # size_hint_y: None
+                    width: 240
+                    height: 60
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+
+            MDLabel:
+                text: "Finalizar"
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_size:"22sp"
+                pos_hint: {"center_x": 0.87, "center_y": 0.1}
+                font_name: "Poppins-Medium.ttf"
 
 
 <Depositar>:
@@ -267,11 +347,55 @@
             md_bg_color: get_color_from_hex("#002171")
             radius: [50, 50, 0, 0]
 
+            # campo VALOR
 
             MDLabel:
                 text: "Valor"
                 theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
                 text_color: get_color_from_hex("#F9F9F9")
                 font_size:"18sp"
-                pos_hint: {"center_x": 0.67, "center_y": 0.88}
+                pos_hint: {"center_x": 0.67, "center_y": 0.83}
                 font_name: "Poppins-Medium.ttf"
+
+            Image: #icone de dinheiro
+                source: "images/MoneyIcon.png"
+                pos_hint: {"center_x": 0.35, "center_y": 0.83}
+                # size_hint_y: None
+                size_hint_x: 0.06
+                allow_stretch: True
+
+            MDTextField: # Valor
+                # id:
+                mode: "fill"
+                hint_text: "R$"  # aumentar o tamanho da letra
+                size_hint: (0.68, 0.1)
+                pos_hint: {"center_x": 0.5, "center_y": 0.75}
+                font_size: "16dp"
+                multiline: False
+
+
+            # campo Data
+
+            MDLabel:
+                text: "Data"
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_size:"18sp"
+                pos_hint: {"center_x": 0.67, "center_y": 0.6}
+                font_name: "Poppins-Medium.ttf"
+
+            Image: #icone de dinheiro
+                source: "images/DateIcon.png"
+                pos_hint: {"center_x": 0.35, "center_y": 0.6}
+                # size_hint_y: None
+                size_hint_x: 0.06
+                allow_stretch: True
+
+            MDTextField: # Data
+                # id:
+                mode: "fill"
+                hint_text: "--/--/----"  # aumentar o tamanho da letra
+                size_hint: (0.68, 0.1)
+                pos_hint: {"center_x": 0.5, "center_y": 0.52}
+                font_size: "16dp"
+                multiline: False
