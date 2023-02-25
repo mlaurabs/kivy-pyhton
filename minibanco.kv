@@ -1,6 +1,17 @@
 #:import get_color_from_hex kivy.utils.get_color_from_hex
 
-<SplashScreen>:
+
+# checklist:
+
+# Home (almost done)
+# + add the recycler view to show the recent transections
+
+# Transferir (done)
+
+# Depositar (done)
+
+
+<SplashScreen>:  # tela de "carregamento"
     MDFloatLayout:
         md_bg_color: get_color_from_hex("#5472D3")
         canvas:
@@ -18,7 +29,7 @@
             text_color: get_color_from_hex("#F9F9F9")
             font_size:"35sp"
 
-        # adicionar a logo
+        # adicionar a logo (a fazer ainda)
 
         MDIconButton: # ainda vou ajeitar
             icon: "chevron-right"
@@ -73,7 +84,7 @@
                 font_size:"18sp"
                 font_name: "Poppins-Medium.ttf"
 
-        MDFloatLayout: # home
+        MDFloatLayout: # functionalities
             md_bg_color: get_color_from_hex("#002171")
             radius: [50, 50, 0, 0]
 
@@ -224,7 +235,7 @@
                 font_name: "Poppins-Medium.ttf"
 
 
-            Image: #icone de dinheiro
+            Image: #icone de destino
                 source: "images/DestinoIcon.png"
                 pos_hint: {"center_x": 0.35, "center_y": 0.74}
                 # size_hint_y: None
@@ -252,7 +263,7 @@
                 pos_hint: {"center_x": 0.67, "center_y": 0.54}
                 font_name: "Poppins-Medium.ttf"
 
-            Image: #icone de dinheiro
+            Image: #icone da data
                 source: "images/DateIcon.png"
                 pos_hint: {"center_x": 0.35, "center_y": 0.54}
                 # size_hint_y: None
@@ -389,7 +400,7 @@
                 pos_hint: {"center_x": 0.67, "center_y": 0.6}
                 font_name: "Poppins-Medium.ttf"
 
-            Image: #icone de dinheiro
+            Image: #icone da data
                 source: "images/DateIcon.png"
                 pos_hint: {"center_x": 0.35, "center_y": 0.6}
                 # size_hint_y: None

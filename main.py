@@ -4,7 +4,6 @@ from kivy.core.window import Window
 
 Window.size = (350, 600)
 
-
 class SplashScreen(Screen):
     pass
 
@@ -32,3 +31,15 @@ class MiniBanco(MDApp):
 
 if __name__ == "__main__":
     MiniBanco().run()
+
+"""
+Tasks for back-end:
+
+create a function to generate the excel file
+create a function to verificate if there is already an excel file on the directory
+create a function to save data into the excel file
+create a function to go through all the file´s data and show it on the recycler view(component)
+create a function to open the excel file
+
+ 
+"""
