@@ -209,6 +209,33 @@
                 multiline: False
 
 
+            MDLabel:
+                text: "Valor"
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_size:"18sp"
+                pos_hint: {"center_x": 0.67, "center_y": 0.88}
+                font_name: "Poppins-Medium.ttf"
+
+
+            Image: #icone de dinheiro
+                source: "images/MoneyIcon.png"
+                pos_hint: {"center_x": 0.35, "center_y": 0.88}
+                # size_hint_y: None
+                size_hint_x: 0.06
+                allow_stretch: True
+
+
+            MDTextField: # Para (destino)
+                # id:
+                mode: "fill"
+                hint_text: "Conta / Agencia"  # aumentar o tamanho da letra
+                size_hint: (0.68, 0.1)
+                pos_hint: {"center_x": 0.5, "center_y": 0.6}
+                font_size: "16dp"
+                multiline: False
+
+
 <Depositar>:
     MDBoxLayout:
         orientation: "vertical"
@@ -236,6 +263,15 @@
                 font_size:"24sp"
                 font_name: "Poppins-SemiBold.ttf"
 
-        MDFloatLayout: # home
+        MDFloatLayout: # forms
             md_bg_color: get_color_from_hex("#002171")
             radius: [50, 50, 0, 0]
+
+
+            MDLabel:
+                text: "Valor"
+                theme_text_color: "Custom"  # necessário para que seja possível customizar a cor do label
+                text_color: get_color_from_hex("#F9F9F9")
+                font_size:"18sp"
+                pos_hint: {"center_x": 0.67, "center_y": 0.88}
+                font_name: "Poppins-Medium.ttf"
