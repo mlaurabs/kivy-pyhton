@@ -13,6 +13,9 @@ locale.setlocale(locale.LC_TIME, 'pt_BR.utf8') # dessa forma, o date picker é t
 
 Window.size = (350, 600)
 
+
+# acessando id de um componente da tela:  self.ids.(nome do id).text(Se o text não for colocado, será apenas o endereço e não o valor do componente)
+
 class SplashScreen(Screen):
     pass
 
@@ -29,7 +32,7 @@ class Home(Screen):
             dataBase.create_sheet("Saldo")
             dataBase_saldo = dataBase["Saldo"]
             dataBase_saldo.append(['Saldo'])
-            dataBase_saldo.append([0])
+            dataBase_saldo.append([float(0.00)])
 
             # deixando em negrito os headers da tabela
             bold = openpyxl.styles.Font(bold=True)  # guardamos o estilo em uma variável
@@ -42,7 +45,7 @@ class Home(Screen):
 
             linha = dataBase_saldo.max_row # pega a última linha /célula com valor
             print(linha)
-            self.ids.saldo.text = 'R$ ' + str(dataBase_saldo[f'A{linha}'].value)
+            self.ids.saldo.text = 'R$ ' + f"{dataBase_saldo[f'A{linha}'].value: .2f}" # dessa forma o saldo é apresentado com 2 casas decimais
 
             dataBase.save('Data\dados_base.xlsx')
             dataBase.close()
@@ -53,7 +56,7 @@ class Home(Screen):
             dataBase_saldo = dataBase["Saldo"]
             linha = dataBase_saldo.max_row  # pega a última linha /célula com valor
             print(linha)
-            self.ids.saldo.text = 'R$ ' + str(dataBase_saldo[f'A{linha}'].value)
+            self.ids.saldo.text = 'R$ ' + f"{dataBase_saldo[f'A{linha}'].value: .2f}" # dessa forma o saldo é apresentado com 2 casas decimais
 
 
 
@@ -83,33 +86,38 @@ ft = Font(bold=True)
 
 class Transferir(Screen):
 
-    # acessando id de um componente da tela:  self.ids.(nome do id).text(Se o text não for colocado, será apenas o endereço e não o valor do componente)
-
     def SaveInfo(self):
         dataBase = openpyxl.load_workbook('Data\dados_base.xlsx')
         dataBase_sheet = dataBase['Sheet']
         dataBase_saldo = dataBase['Saldo']
 
-        valor = int(self.ids.valor.text)
-        print(valor)
+        # Em português usamos vírgula para separar casas decimais, mas em inglês o ponto é utilizado
+        # Logo para que o valor escrito com vígula possa ser formatado para float corretamente, é necessário trocar a vírgula pelo ponto
+        valor = self.ids.valor.text
+        virgula = ","
+        ponto = "."
+
+        if virgula in valor:  # se tiver vírgula no valor...
+            valor = valor.replace(virgula, ponto)  # trocar por ponto
+
         para = str(self.ids.para.text)
         data = str(self.ids.data.text)
         desc = str(self.ids.desc.text)
 
         linha = dataBase_saldo.max_row
-        saldo = dataBase_saldo[f'A{linha}'].value      # saldo mais recente
-        if(saldo < valor):
+        saldo = float(dataBase_saldo[f'A{linha}'].value)      # saldo mais recente
+        if(saldo < float(valor)):
             print('Não tem dinheiro')
         else:
-            saldo_atual = (saldo - valor) # gambiarra temporária - não sei porque está diminuindo 2 do saldo atual
-            print(saldo_atual)
-            dataBase_saldo.append([saldo_atual])
+            self.saldo_atual = (saldo - float(valor))
+            print(self.saldo_atual)
+            dataBase_saldo.append([self.saldo_atual])
 
-        dataBase_sheet.append([valor, para, data, desc])
+        dataBase_sheet.append([valor, data, para, desc])
         dataBase.save('Data\dados_base.xlsx')
         dataBase.close()
 
-    def ShowingDate(self, instance, value, date_range):  # ajeitar
+    def ShowingDate(self, instance, value, date_range):
         self.date = str(value) # get the date
         # formatando a data
         self.data_br = self.date.split('-')
@@ -131,7 +139,55 @@ class Transferir(Screen):
         date_dialog.open()
 
 class Depositar(Screen):
-    pass
+
+    def SaveInfo(self):
+        dataBase = openpyxl.load_workbook('Data\dados_base.xlsx')
+        dataBase_sheet = dataBase['Sheet']
+        dataBase_saldo = dataBase['Saldo']
+
+        # Em português usamos vírgula para separar casas decimais, mas em inglês o ponto é utilizado
+        # Logo para que o valor escrito com vígula possa ser formatado para float corretamente, é necessário trocar a vírgula pelo ponto
+        valor = self.ids.valor.text
+        virgula = ","
+        ponto = "."
+
+        if virgula in valor: # se tiver vírgula no valor...
+            valor = valor.replace(virgula, ponto)  # trocar por ponto
+
+        data = str(self.ids.data.text)
+
+        linha = dataBase_saldo.max_row
+        saldo = float(dataBase_saldo[f'A{linha}'].value)  # saldo mais recente
+
+        self.saldo_atual = (saldo + float(valor))
+        print(self.saldo_atual)
+        dataBase_saldo.append([self.saldo_atual])
+
+        dataBase_sheet.append([valor, data, None, None])
+        dataBase.save('Data\dados_base.xlsx')
+        dataBase.close()
+
+
+    def ShowingDate(self, instance, value, date_range):
+        self.date = str(value) # get the date
+        # formatando a data
+        self.data_br = self.date.split('-')
+        self.ids.data.text = self.data_br[2] + '/' + self.data_br[1] + '/' + self.data_br[0]  # shows it in text
+
+    def Cancelar(self, instance, date_range):
+        self.ids.data.text = "Data"
+
+    def show_date_picker(self):
+        # estilando o date picker
+        date_dialog = MDDatePicker(title="Selecione uma data", primary_color= get_color_from_hex("#002171"),
+        accent_color= get_color_from_hex("#FFFFFF"),
+        selector_color= get_color_from_hex("#5472D3"),
+        text_toolbar_color= get_color_from_hex("#FFFFFF"),
+        text_weekday_color= get_color_from_hex("#002171"),
+        text_current_color= get_color_from_hex("#FFFFF"),
+        text_button_color= get_color_from_hex("#002171"))
+        date_dialog.bind(on_save=self.ShowingDate, on_cancel=self.Cancelar)
+        date_dialog.open()
 
 class MiniBanco(MDApp):
 
@@ -153,9 +209,11 @@ Tasks for back-end:
 create a function to generate the excel file DONE
 create a function to verify if there is already an excel file on the directory DONE
 update the balance DONE
-create a function to save data into the excel file
+create a function to save data into the excel file DONE
 create a function to go through all the file´s data and show it on the recycler view(component)
-create a function to open the excel file
+create a function to open the excel file DONE
+create the Transferir functionality DONE
+create the Depositar functionality DONE
 
  
 """

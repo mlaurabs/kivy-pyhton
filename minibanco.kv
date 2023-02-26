@@ -302,7 +302,7 @@
             MDTextField: # Descrição
                 id: desc
                 mode: "fill"
-                hint_text: "--/--/----"  # aumentar o tamanho da letra
+                hint_text: "Compras"  # aumentar o tamanho da letra
                 size_hint: (0.68, 0.1)
                 pos_hint: {"center_x": 0.5, "center_y": 0.26}
                 font_size: "16dp"
@@ -383,7 +383,7 @@
                 allow_stretch: True
 
             MDTextField: # Valor
-                # id:
+                id: valor
                 mode: "fill"
                 hint_text: "R$"  # aumentar o tamanho da letra
                 size_hint: (0.68, 0.1)
@@ -409,14 +409,15 @@
                 size_hint_x: 0.06
                 allow_stretch: True
 
-            MDTextField: # Data
-                # id:
-                mode: "fill"
-                hint_text: "--/--/----"  # aumentar o tamanho da letra
+            MDRaisedButton: # Data
+                id: data
+                text: "Data"
+                md_bg_color: get_color_from_hex("#F9F9F9")
+                theme_text_color: "Custom"
+                text_color: get_color_from_hex("#4287f5")
                 size_hint: (0.68, 0.1)
-                pos_hint: {"center_x": 0.5, "center_y": 0.52}
-                font_size: "16dp"
-                multiline: False
+                pos_hint: {"center_x": 0.5, "center_y": 0.46}
+                on_press: root.show_date_picker()
 
 
             # Botão de Finalizar
@@ -425,7 +426,7 @@
                 size_hint: 0.7, 0.126
                 pos_hint: {"center_x": .5, "center_y": .1}
                 background_color: 0, 0, 0, 0
-                # on_press: root.CreateFile()
+                on_press: root.SaveInfo()
 
                 Image:
                     source: "images/buttons/finalizar.png"
