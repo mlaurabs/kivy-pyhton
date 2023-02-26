@@ -271,14 +271,15 @@
                 size_hint_x: 0.06
                 allow_stretch: True
 
-            MDTextField: # Data
+            MDRaisedButton: # Data
                 id: data
-                mode: "fill"
-                hint_text: "--/--/----"  # aumentar o tamanho da letra
+                text: "Data"
+                md_bg_color: get_color_from_hex("#F9F9F9")
+                theme_text_color: "Custom"
+                text_color: get_color_from_hex("#4287f5")
                 size_hint: (0.68, 0.1)
                 pos_hint: {"center_x": 0.5, "center_y": 0.46}
-                font_size: "16dp"
-                multiline: False
+                on_press: root.show_date_picker()
 
 
             # campo Descrição

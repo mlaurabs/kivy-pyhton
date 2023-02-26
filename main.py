@@ -3,6 +3,8 @@ from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from os.path import exists
+from kivymd.uix.pickers import MDDatePicker
+
 
 Window.size = (350, 600)
 
@@ -101,6 +103,14 @@ class Transferir(Screen):
         dataBase_sheet.append([valor, para, data, desc])
         dataBase.save('Data\dados_base.xlsx')
         dataBase.close()
+
+    def Teste(self): # ajeitar
+        print('peguei a data')
+
+    def show_date_picker(self):
+        date_dialog = MDDatePicker()
+        date_dialog.bind(on_save=self.Teste) # ajeitar
+        date_dialog.open()
 
 class Depositar(Screen):
     pass
