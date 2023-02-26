@@ -4,7 +4,8 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from os.path import exists
 from kivymd.uix.pickers import MDDatePicker
-
+import functions
+from kivy.utils import get_color_from_hex
 
 Window.size = (350, 600)
 
@@ -104,12 +105,21 @@ class Transferir(Screen):
         dataBase.save('Data\dados_base.xlsx')
         dataBase.close()
 
-    def Teste(self): # ajeitar
-        print('peguei a data')
+    def Teste(self, instance, date_range, value):  # ajeitar
+        self.date = str(value) # get the date
+        print(self.date)
+        self.ids.data.text = self.date  # shows it in text
 
     def show_date_picker(self):
-        date_dialog = MDDatePicker()
-        date_dialog.bind(on_save=self.Teste) # ajeitar
+        # estilando o date picker
+        date_dialog = MDDatePicker(title="Selecione uma data", primary_color= get_color_from_hex("#002171"),
+        accent_color= get_color_from_hex("#FFFFFF"),
+        selector_color= get_color_from_hex("#5472D3"),
+        text_toolbar_color= get_color_from_hex("#FFFFFF"),
+        text_weekday_color= get_color_from_hex("#002171"),
+        text_current_color= get_color_from_hex("#FFFFF"),
+        text_button_color= get_color_from_hex("#002171"))
+        date_dialog.bind(on_save=self.Teste)  # ajeitar
         date_dialog.open()
 
 class Depositar(Screen):
