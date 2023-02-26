@@ -11,23 +11,42 @@ class SplashScreen(Screen):
 
 class Home(Screen):
 
-    def on_enter(self, *args): # ao gera a tela, a função é executada
+    def on_pre_enter(self, *args): # ao gera a tela, a função é executada
+
+        #verifica se já há um arquivo de dados salvo
         if not exists('Data\dados_base.xlsx'):
             print("Vou criar o arquivo")
             dataBase = openpyxl.Workbook()
             dataBase_sheet = dataBase['Sheet']
-            dataBase_sheet.append(['Valor', 'Data', 'Para', 'Desc', 'Saldo'])
+            dataBase_sheet.append(['Valor', 'Data', 'Para', 'Desc'])
+            dataBase.create_sheet("Saldo")
+            dataBase_saldo = dataBase["Saldo"]
+            dataBase_saldo.append(['Saldo'])
+            dataBase_saldo.append([0])
 
             # deixando em negrito os headers da tabela
-            bold = openpyxl.styles.Font(bold=True)
-            for row in dataBase_sheet["A1:E1"]:
+            bold = openpyxl.styles.Font(bold=True)  # guardamos o estilo em uma variável
+            for row in dataBase_sheet["A1:E1"]: # adicionamos esse estilo para cada célula
                 for cell in row:
                     cell.font = bold
+            dataBase_saldo['A1'].font = bold
+
+            # Atualiza o valor do saldo na home screen
+
+            linha = dataBase_saldo.max_row # pega a última linha /célula com valor
+            print(linha)
+            self.ids.saldo.text = 'R$ ' + str(dataBase_saldo[f'A{linha}'].value)
 
             dataBase.save('Data\dados_base.xlsx')
             dataBase.close()
         else:
+            # Atualiza o valor do saldo na home screen
             print("O arquivo já foi criado")
+            dataBase = openpyxl.load_workbook('Data\dados_base.xlsx')
+            dataBase_saldo = dataBase["Saldo"]
+            linha = dataBase_saldo.max_row  # pega a última linha /célula com valor
+            print(linha)
+            self.ids.saldo.text = 'R$ ' + str(dataBase_saldo[f'A{linha}'].value)
 
 
 
@@ -43,11 +62,45 @@ ft = Font(bold=True)
 >>> for row in ws["A1:C1"]:
 ...     for cell in row:
 ...         cell.font = ft
+
+
+#editando a planilha base
+            edit_base = openpyxl.load_workbook('dados_base.xlsx')
+            edit_base_sheet = edit_base['Sheet']
+            edit_base_sheet.append([self.date_read, self.termo_tanque, self.valor_read])
+            edit_base.save('dados_base.xlsx')
+            edit_base.close()
+
 """
 
 
 class Transferir(Screen):
-    pass
+
+    # acessando id de um componente da tela:  self.ids.(nome do id).text(Se o text não for colocado, será apenas o endereço e não o valor do componente)
+
+    def SaveInfo(self):
+        dataBase = openpyxl.load_workbook('Data\dados_base.xlsx')
+        dataBase_sheet = dataBase['Sheet']
+        dataBase_saldo = dataBase['Saldo']
+
+        valor = int(self.ids.valor.text)
+        print(valor)
+        para = str(self.ids.para.text)
+        data = str(self.ids.data.text)
+        desc = str(self.ids.desc.text)
+
+        linha = dataBase_saldo.max_row
+        saldo = dataBase_saldo[f'A{linha}'].value      # saldo mais recente
+        if(saldo < valor):
+            print('Não tem dinheiro')
+        else:
+            saldo_atual = (saldo - valor) # gambiarra temporária - não sei porque está diminuindo 2 do saldo atual
+            print(saldo_atual)
+            dataBase_saldo.append([saldo_atual])
+
+        dataBase_sheet.append([valor, para, data, desc])
+        dataBase.save('Data\dados_base.xlsx')
+        dataBase.close()
 
 class Depositar(Screen):
     pass
@@ -71,6 +124,7 @@ Tasks for back-end:
 
 create a function to generate the excel file DONE
 create a function to verify if there is already an excel file on the directory DONE
+update the balance DONE
 create a function to save data into the excel file
 create a function to go through all the file´s data and show it on the recycler view(component)
 create a function to open the excel file

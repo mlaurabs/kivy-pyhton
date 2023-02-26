@@ -60,6 +60,7 @@
                     radius: [330,330,330,330]
 
             MDLabel:  # saldo
+                id: saldo
                 text: "R$ 20.000,00"
                 pos_hint: {"center_x": .5, "center_y": .2}
                 halign: "center"
@@ -215,7 +216,7 @@
                 allow_stretch: True
 
             MDTextField: # Valor
-                # id:
+                id: valor
                 mode: "fill"
                 hint_text: "R$"  # aumentar o tamanho da letra
                 size_hint: (0.68, 0.1)
@@ -244,7 +245,7 @@
 
 
             MDTextField: # Para (destino)
-                # id:
+                id: para
                 mode: "fill"
                 hint_text: "Conta / Agencia"  # aumentar o tamanho da letra
                 size_hint: (0.68, 0.1)
@@ -271,7 +272,7 @@
                 allow_stretch: True
 
             MDTextField: # Data
-                # id:
+                id: data
                 mode: "fill"
                 hint_text: "--/--/----"  # aumentar o tamanho da letra
                 size_hint: (0.68, 0.1)
@@ -298,7 +299,7 @@
                 allow_stretch: True
 
             MDTextField: # Descrição
-                # id:
+                id: desc
                 mode: "fill"
                 hint_text: "--/--/----"  # aumentar o tamanho da letra
                 size_hint: (0.68, 0.1)
@@ -313,7 +314,7 @@
                 size_hint: 0.7, 0.126
                 pos_hint: {"center_x": .5, "center_y": .1}
                 background_color: 0, 0, 0, 0
-                on_press: root.manager.current = "home"
+                on_press: root.SaveInfo()
 
                 Image:
                     source: "images/buttons/finalizar.png"
