@@ -6,6 +6,10 @@ from os.path import exists
 from kivymd.uix.pickers import MDDatePicker
 import functions
 from kivy.utils import get_color_from_hex
+import locale
+# this sets the date time formats to pt_PT, there are many other options for currency, numbers etc.
+# You might need to install language package  "sudo apt-get install language-pack-pt-base" pt means Portuguese
+locale.setlocale(locale.LC_TIME, 'pt_BR.utf8') # dessa forma, o date picker é traduzido para português Brasil
 
 Window.size = (350, 600)
 
@@ -105,10 +109,14 @@ class Transferir(Screen):
         dataBase.save('Data\dados_base.xlsx')
         dataBase.close()
 
-    def Teste(self, instance, date_range, value):  # ajeitar
+    def ShowingDate(self, instance, value, date_range):  # ajeitar
         self.date = str(value) # get the date
-        print(self.date)
-        self.ids.data.text = self.date  # shows it in text
+        # formatando a data
+        self.data_br = self.date.split('-')
+        self.ids.data.text = self.data_br[2] + '/' + self.data_br[1] + '/' + self.data_br[0]  # shows it in text
+
+    def Cancelar(self, instance, date_range):
+        self.ids.data.text = "Data"
 
     def show_date_picker(self):
         # estilando o date picker
@@ -119,7 +127,7 @@ class Transferir(Screen):
         text_weekday_color= get_color_from_hex("#002171"),
         text_current_color= get_color_from_hex("#FFFFF"),
         text_button_color= get_color_from_hex("#002171"))
-        date_dialog.bind(on_save=self.Teste)  # ajeitar
+        date_dialog.bind(on_save=self.ShowingDate, on_cancel=self.Cancelar)
         date_dialog.open()
 
 class Depositar(Screen):
