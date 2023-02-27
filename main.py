@@ -4,8 +4,9 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from os.path import exists
 from kivymd.uix.pickers import MDDatePicker
-import functions
+from kivymd.uix.dialog import MDDialog
 from kivy.utils import get_color_from_hex
+from kivymd.uix.button import MDRaisedButton, MDRectangleFlatButton
 import locale
 # this sets the date time formats to pt_PT, there are many other options for currency, numbers etc.
 # You might need to install language package  "sudo apt-get install language-pack-pt-base" pt means Portuguese
@@ -21,7 +22,7 @@ class SplashScreen(Screen):
 
 class Home(Screen):
 
-    def on_pre_enter(self, *args): # ao gera a tela, a função é executada
+    def on_pre_enter(self, *args):# ao gera a tela, a função é executada
 
         #verifica se já há um arquivo de dados salvo
         if not exists('Data\dados_base.xlsx'):
@@ -44,9 +45,12 @@ class Home(Screen):
             # Atualiza o valor do saldo na home screen
 
             linha = dataBase_saldo.max_row # pega a última linha /célula com valor
-            print(linha)
-            self.ids.saldo.text = 'R$ ' + f"{dataBase_saldo[f'A{linha}'].value: .2f}" # dessa forma o saldo é apresentado com 2 casas decimais
 
+            if(dataBase_saldo[f"A{linha}"].value < 0):
+                print("entrei aqui")
+                self.ids.saldo.text_color = get_color_from_hex("#FF0000")
+
+            self.ids.saldo.text = 'R$ ' + f"{dataBase_saldo[f'A{linha}'].value: .2f}"  # dessa forma o saldo é apresentado com 2 casas decimais
             dataBase.save('Data\dados_base.xlsx')
             dataBase.close()
         else:
@@ -56,8 +60,13 @@ class Home(Screen):
             dataBase_saldo = dataBase["Saldo"]
             linha = dataBase_saldo.max_row  # pega a última linha /célula com valor
             print(linha)
-            self.ids.saldo.text = 'R$ ' + f"{dataBase_saldo[f'A{linha}'].value: .2f}" # dessa forma o saldo é apresentado com 2 casas decimais
 
+            if (dataBase_saldo[f"A{linha}"].value < 0):
+                print("entrei aqui")
+                self.ids.saldo.text_color = get_color_from_hex("#FF0000")
+
+            self.ids.saldo.text = 'R$ ' + f"{dataBase_saldo[f'A{linha}'].value: .2f}" # dessa forma o saldo é apresentado com 2 casas decimais
+            dataBase.close()
 
 
 """
@@ -86,7 +95,29 @@ ft = Font(bold=True)
 
 class Transferir(Screen):
 
-    def SaveInfo(self):
+    dialog = True
+
+    def Home(self):
+        print("entrei na Home")
+
+        dataBase = openpyxl.load_workbook('Data\dados_base.xlsx')
+        dataBase_saldo = dataBase["Saldo"]
+
+        linha = dataBase_saldo.max_row  # pega a última linha /célula com valor
+
+        if (dataBase_saldo[f"A{linha}"].value < 0):
+            print("entrei aqui")
+            self.manager.get_screen("home").ids.saldo.text_color = get_color_from_hex("#FF0000")
+        else:
+            self.manager.get_screen("home").ids.saldo.text_color = get_color_from_hex("#F9F9F9")
+
+        self.manager.get_screen("home").ids.saldo.text = 'R$ ' + f"{dataBase_saldo[f'A{linha}'].value: .2f}"  # dessa forma o saldo é apresentado com 2 casas decimais
+        self.manager.current = 'home'
+
+        dataBase.close()
+
+    def SaveInfo(self, obj):
+
         dataBase = openpyxl.load_workbook('Data\dados_base.xlsx')
         dataBase_sheet = dataBase['Sheet']
         dataBase_saldo = dataBase['Saldo']
@@ -106,16 +137,37 @@ class Transferir(Screen):
 
         linha = dataBase_saldo.max_row
         saldo = float(dataBase_saldo[f'A{linha}'].value)      # saldo mais recente
-        if(saldo < float(valor)):
-            print('Não tem dinheiro')
-        else:
-            self.saldo_atual = (saldo - float(valor))
-            print(self.saldo_atual)
-            dataBase_saldo.append([self.saldo_atual])
+
+
+        self.saldo_atual = (saldo - float(valor))
+        print(self.saldo_atual)
+        dataBase_saldo.append([self.saldo_atual])
 
         dataBase_sheet.append([valor, data, para, desc])
         dataBase.save('Data\dados_base.xlsx')
         dataBase.close()
+
+        self.Home()
+
+    def continuar(self, obj):  # in case the user dismisses de alert given when he says NO
+        self.dialog.dismiss()  # it closes the alert showed
+        self.manager.current = 'home'  # directs to the first registering
+
+    def close_dialog(self, obj):  # closes the alert
+        self.dialog.dismiss()
+
+    def mostrar_dialogo(self):  # code nedded for the dialog to be showed
+        if self.dialog:
+            self.dialog = MDDialog(
+                title="Saldo Insuficiente!",
+                text="Se decidir continuar com esta ação, sua conta estará negativada. O valor será descontado eventualmente de sua conta.",
+                buttons=[
+                    MDRectangleFlatButton(text="Continuar", on_press=self.continuar, on_release=self.SaveInfo),
+                    MDRaisedButton(text="Cancelar", on_press=self.close_dialog)
+                ]
+            )
+            self.dialog.open()
+
 
     def ShowingDate(self, instance, value, date_range):
         self.date = str(value) # get the date
@@ -124,7 +176,7 @@ class Transferir(Screen):
         self.ids.data.text = self.data_br[2] + '/' + self.data_br[1] + '/' + self.data_br[0]  # shows it in text
 
     def Cancelar(self, instance, date_range):
-        self.ids.data.text = "Data"
+        self.ids.data.text = "Selecione uma data"
 
     def show_date_picker(self):
         # estilando o date picker
@@ -139,6 +191,26 @@ class Transferir(Screen):
         date_dialog.open()
 
 class Depositar(Screen):
+
+    def Home(self):
+        print("entrei na Home")
+
+        dataBase = openpyxl.load_workbook('Data\dados_base.xlsx')
+        dataBase_saldo = dataBase["Saldo"]
+
+        linha = dataBase_saldo.max_row  # pega a última linha /célula com valor
+
+        if (dataBase_saldo[f"A{linha}"].value < 0):
+            print("entrei aqui")
+            self.manager.get_screen("home").ids.saldo.text_color = get_color_from_hex("#FF0000")
+        else:
+            self.manager.get_screen("home").ids.saldo.text_color = get_color_from_hex("#F9F9F9")
+
+        self.manager.get_screen("home").ids.saldo.text = 'R$ ' + f"{dataBase_saldo[f'A{linha}'].value: .2f}"  # dessa forma o saldo é apresentado com 2 casas decimais
+        self.manager.current = 'home'
+
+        dataBase.close()
+
 
     def SaveInfo(self):
         dataBase = openpyxl.load_workbook('Data\dados_base.xlsx')
@@ -167,6 +239,8 @@ class Depositar(Screen):
         dataBase.save('Data\dados_base.xlsx')
         dataBase.close()
 
+        self.Home()
+
 
     def ShowingDate(self, instance, value, date_range):
         self.date = str(value) # get the date
@@ -175,7 +249,7 @@ class Depositar(Screen):
         self.ids.data.text = self.data_br[2] + '/' + self.data_br[1] + '/' + self.data_br[0]  # shows it in text
 
     def Cancelar(self, instance, date_range):
-        self.ids.data.text = "Data"
+        self.ids.data.text = "Selecione uma data"
 
     def show_date_picker(self):
         # estilando o date picker
@@ -215,5 +289,12 @@ create a function to open the excel file DONE
 create the Transferir functionality DONE
 create the Depositar functionality DONE
 
+// caso a conta fique negativada
+o saldo fica em vermelho
+um alert aparece quando tentar transferir além do valor na conta
+quando for depositado um valor, será descontado dele
  
 """
+
+
+

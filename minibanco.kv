@@ -184,7 +184,7 @@
                 icon_color: get_color_from_hex("#F9F9F9")
                 icon_size: "34sp"
                 pos_hint: {"center_x": .12, "center_y": .75}
-                on_release: root.manager.current = "home"
+                on_release: root.Home()
 
             MDLabel:
                 text: "Transferir"
@@ -315,7 +315,7 @@
                 size_hint: 0.7, 0.126
                 pos_hint: {"center_x": .5, "center_y": .1}
                 background_color: 0, 0, 0, 0
-                on_press: root.SaveInfo()
+                on_press: root.mostrar_dialogo()
 
                 Image:
                     source: "images/buttons/finalizar.png"
@@ -351,7 +351,7 @@
                 icon_color: get_color_from_hex("#F9F9F9")
                 icon_size: "34sp"
                 pos_hint: {"center_x": .12, "center_y": .75}
-                on_release: root.manager.current = "home"
+                on_release: root.Home()
 
             MDLabel:
                 text: "Depositar"
@@ -411,12 +411,12 @@
 
             MDRaisedButton: # Data
                 id: data
-                text: "Data"
+                text: "Selecione uma data"
                 md_bg_color: get_color_from_hex("#F9F9F9")
                 theme_text_color: "Custom"
                 text_color: get_color_from_hex("#4287f5")
                 size_hint: (0.68, 0.1)
-                pos_hint: {"center_x": 0.5, "center_y": 0.46}
+                pos_hint: {"center_x": 0.5, "center_y": 0.52}
                 on_press: root.show_date_picker()
 
 
