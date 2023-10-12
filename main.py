@@ -1,8 +1,10 @@
+from os.path import exists
+
 import openpyxl
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
-from os.path import exists
+import os
 from kivymd.uix.pickers import MDDatePicker
 from kivymd.uix.dialog import MDDialog
 from kivy.utils import get_color_from_hex
@@ -22,10 +24,11 @@ class SplashScreen(Screen):
 
 class Home(Screen):
 
-    def on_pre_enter(self, *args):# ao gera a tela, a função é executada
+    def on_pre_enter(self, *args):# ao gerar a tela, a função é executada
 
         #verifica se já há um arquivo de dados salvo
-        if not exists('Data\dados_base.xlsx'):
+        if not exists('Data\dados_base.xlsx'): # se não houver um arquivo criado
+            # criar o arquivo
             print("Vou criar o arquivo")
             dataBase = openpyxl.Workbook()
             dataBase_sheet = dataBase['Sheet']
@@ -42,31 +45,39 @@ class Home(Screen):
                     cell.font = bold
             dataBase_saldo['A1'].font = bold
 
-            # Atualiza o valor do saldo na home screen
+            dataBase.save('Data\dados_base.xlsx')
 
-            linha = dataBase_saldo.max_row # pega a última linha /célula com valor
+            """
+            linha = dataBase_saldo.max_row # pega a última linha /célula com valor --> saldo atual
 
-            if(dataBase_saldo[f"A{linha}"].value < 0):
+            if(dataBase_saldo[f"A{linha}"].value < 0): # se o saldo estiver negativo
                 print("entrei aqui")
                 self.ids.saldo.text_color = get_color_from_hex("#FF0000")
 
             self.ids.saldo.text = 'R$ ' + f"{dataBase_saldo[f'A{linha}'].value: .2f}"  # dessa forma o saldo é apresentado com 2 casas decimais
             dataBase.save('Data\dados_base.xlsx')
             dataBase.close()
-        else:
-            # Atualiza o valor do saldo na home screen
+            """
+        else: # se já houver um arquivo criado
+            # carregar e abrir o arquivo
             print("O arquivo já foi criado")
             dataBase = openpyxl.load_workbook('Data\dados_base.xlsx')
             dataBase_saldo = dataBase["Saldo"]
-            linha = dataBase_saldo.max_row  # pega a última linha /célula com valor
-            print(linha)
 
-            if (dataBase_saldo[f"A{linha}"].value < 0):
-                print("entrei aqui")
-                self.ids.saldo.text_color = get_color_from_hex("#FF0000")
+        # Atualiza o valor do saldo na home screen
+        linha = dataBase_saldo.max_row  # pega a última linha /célula com valor --> saldo atual
+        print(linha)
 
-            self.ids.saldo.text = 'R$ ' + f"{dataBase_saldo[f'A{linha}'].value: .2f}" # dessa forma o saldo é apresentado com 2 casas decimais
-            dataBase.close()
+        if (dataBase_saldo[f"A{linha}"].value < 0): # se o saldo estiver negativo
+            print("entrei aqui")
+            self.ids.saldo.text_color = get_color_from_hex("#FF0000")
+
+        self.ids.saldo.text = 'R$ ' + f"{dataBase_saldo[f'A{linha}'].value: .2f}" # dessa forma o saldo é apresentado com 2 casas decimais
+        dataBase.close() # fechar o arquivo
+
+    def chama(self):
+        print("entrei no chama")
+        os.system("Data\dados_base.xlsx")
 
 
 """
@@ -97,17 +108,29 @@ class Transferir(Screen):
 
     dialog = True
 
+    def TrocaFormato(self):
+        # Em português usamos vírgula para separar casas decimais, mas em inglês o ponto é utilizado
+        # Logo, para que o valor escrito com vígula possa ser formatado para float corretamente, é necessário trocar a vírgula pelo ponto
+        valor = self.ids.valor.text
+        virgula = ","
+        ponto = "."
+
+        if virgula in valor:  # se tiver vírgula no valor...
+            return float(valor.replace(virgula, ponto))  # trocar por ponto
+        else:
+            return float(valor)
+
     def Home(self):
         print("entrei na Home")
-
         dataBase = openpyxl.load_workbook('Data\dados_base.xlsx')
         dataBase_saldo = dataBase["Saldo"]
+
 
         linha = dataBase_saldo.max_row  # pega a última linha /célula com valor
 
         if (dataBase_saldo[f"A{linha}"].value < 0):
             print("entrei aqui")
-            self.manager.get_screen("home").ids.saldo.text_color = get_color_from_hex("#FF0000")
+            self.manager.get_screen("home").ids.saldo.text_color = get_color_from_hex("#FF0000")    # manager.get_screen(nome da screen) é utlizado para que possamos acessar um componente de outra tela
         else:
             self.manager.get_screen("home").ids.saldo.text_color = get_color_from_hex("#F9F9F9")
 
@@ -118,30 +141,24 @@ class Transferir(Screen):
 
     def SaveInfo(self, obj):
 
+        self.dialog.dismiss()  # it closes the alert showed
+
         dataBase = openpyxl.load_workbook('Data\dados_base.xlsx')
-        dataBase_sheet = dataBase['Sheet']
-        dataBase_saldo = dataBase['Saldo']
+        dataBase_saldo = dataBase["Saldo"]
+        dataBase_sheet = dataBase["Sheet"]
 
-        # Em português usamos vírgula para separar casas decimais, mas em inglês o ponto é utilizado
-        # Logo para que o valor escrito com vígula possa ser formatado para float corretamente, é necessário trocar a vírgula pelo ponto
-        valor = self.ids.valor.text
-        virgula = ","
-        ponto = "."
-
-        if virgula in valor:  # se tiver vírgula no valor...
-            valor = valor.replace(virgula, ponto)  # trocar por ponto
+        valor = self.TrocaFormato()
 
         para = str(self.ids.para.text)
         data = str(self.ids.data.text)
         desc = str(self.ids.desc.text)
 
         linha = dataBase_saldo.max_row
-        saldo = float(dataBase_saldo[f'A{linha}'].value)      # saldo mais recente
+        saldo = float(dataBase_saldo[f'A{linha}'].value)  # saldo mais recente
 
-
-        self.saldo_atual = (saldo - float(valor))
-        print(self.saldo_atual)
-        dataBase_saldo.append([self.saldo_atual])
+        saldo_atual = (saldo - valor)
+        print(saldo_atual)
+        dataBase_saldo.append([saldo_atual])
 
         dataBase_sheet.append([valor, data, para, desc])
         dataBase.save('Data\dados_base.xlsx')
@@ -157,16 +174,31 @@ class Transferir(Screen):
         self.dialog.dismiss()
 
     def mostrar_dialogo(self):  # code nedded for the dialog to be showed
-        if self.dialog:
-            self.dialog = MDDialog(
-                title="Saldo Insuficiente!",
-                text="Se decidir continuar com esta ação, sua conta estará negativada. O valor será descontado eventualmente de sua conta.",
-                buttons=[
-                    MDRectangleFlatButton(text="Continuar", on_press=self.continuar, on_release=self.SaveInfo),
-                    MDRaisedButton(text="Cancelar", on_press=self.close_dialog)
-                ]
-            )
-            self.dialog.open()
+
+        valor = self.TrocaFormato()
+        print(valor)
+
+        dataBase = openpyxl.load_workbook('Data\dados_base.xlsx')
+        dataBase_saldo = dataBase["Saldo"]
+
+        linha = dataBase_saldo.max_row
+        saldo = float(dataBase_saldo[f'A{linha}'].value)  # saldo mais recente
+        dataBase.close()
+
+        if(valor > saldo):
+            if self.dialog:
+                self.dialog = MDDialog(
+                    title="Saldo Insuficiente!",
+                    text="Se decidir continuar com esta ação, sua conta estará negativada. O valor será descontado eventualmente de sua conta.",
+                    buttons=[
+                        MDRectangleFlatButton(text="Continuar", on_press=self.continuar, on_release=self.SaveInfo),
+                        MDRaisedButton(text="Cancelar", on_press=self.close_dialog)
+                    ]
+                )
+                self.dialog.open()
+        else:
+            self.SaveInfo(self.dialog)
+
 
 
     def ShowingDate(self, instance, value, date_range):
@@ -202,7 +234,7 @@ class Depositar(Screen):
 
         if (dataBase_saldo[f"A{linha}"].value < 0):
             print("entrei aqui")
-            self.manager.get_screen("home").ids.saldo.text_color = get_color_from_hex("#FF0000")
+            self.manager.get_screen("home").ids.saldo.text_color = get_color_from_hex("#FF0000")    # manager.get_screen(nome da screen) é utlizado para que possamos acessar um componente de outra tela
         else:
             self.manager.get_screen("home").ids.saldo.text_color = get_color_from_hex("#F9F9F9")
 
@@ -289,7 +321,7 @@ create a function to open the excel file DONE
 create the Transferir functionality DONE
 create the Depositar functionality DONE
 
-// caso a conta fique negativada
+caso a conta fique negativada DONE
 o saldo fica em vermelho
 um alert aparece quando tentar transferir além do valor na conta
 quando for depositado um valor, será descontado dele
