@@ -5,4 +5,5 @@
 - para implementar o "front", eu criei um protótipo no Figma.<br>
   O link: https://www.figma.com/file/MjOGUO7PJAcGViOUdkLaku/Mini-Banco?type=design&node-id=0%3A1&mode=design&t=7uWApGvhBX34T1x9-1
 - para a base de dados, estou utilizando uma planilha excel, a qual está sendo manipulada pela biblioteca openpy de Python
+- Obs: os arquivos Kivy_Python.txt e POO_Python.txt são anotaçães que fiz enquanto inciava o projeto utilizando kivy e programação orientada a objetos em Python
 - **projetinho em andamento**
