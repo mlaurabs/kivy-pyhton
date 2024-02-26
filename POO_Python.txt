@@ -1,6 +1,8 @@
 *Orientação a Objetos em Python:
 
-- Nas classes em python, existem dois tipos de atributos/variáveis: variável de classe: pertence à classe em si e variável de instância: pertence a cada objeto individuamente
+- Nas classes em python, existem dois tipos de atributos/variáveis: 
+variável de classe: pertence à classe em si  
+variável de instância: pertence a cada objeto individuamente
 
 class NomeClasse:
 	var = valor
